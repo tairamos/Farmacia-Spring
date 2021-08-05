@@ -2,7 +2,6 @@ package org.generation.farmacia.controller;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,45 +15,45 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.generation.farmacia.model.Categoria;
-import org.generation.farmacia.repository.CategoriaRepository;
+import org.generation.farmacia.model.Produto;
+import org.generation.farmacia.repository.ProdutoRepository;
 
 
 
 @RestController
-@RequestMapping("/categoria")
+@RequestMapping("/produtos")
 @CrossOrigin("*")
-public class CategoriaController {
-	
+public class ProdutoController {
+
 	@Autowired
-	private CategoriaRepository repository;
+	private ProdutoRepository repository;
 	
 	//findAllCategoria
 	@GetMapping
-	public ResponseEntity<List<Categoria>> GetAll(){
+	public ResponseEntity<List<Produto>> GetAll(){
 		return ResponseEntity.ok(repository.findAll());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Categoria> GetById(@PathVariable long id){
+	public ResponseEntity<Produto> GetById(@PathVariable long id){
 		return repository.findById(id)
 				.map(resp -> ResponseEntity.ok(resp))
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
 	//findByDescricaoCategoria
-	@GetMapping("/descricao/{descricao}")
-	public ResponseEntity<List<Categoria>> GetByDescricao(@PathVariable String descricao){
-		return ResponseEntity.ok(repository.findAllByDescricaoContainingIgnoreCase(descricao));
+	@GetMapping("/preco/{preco}")
+	public ResponseEntity<List<Produto>> GetByDescricao(@PathVariable String nome){
+		return ResponseEntity.ok(repository.findAllByNomeContainingIgnoreCase(nome));
 	}
 	
 	@PostMapping
-	public ResponseEntity<Categoria> Post(@RequestBody Categoria post){
+	public ResponseEntity<Produto> Post(@RequestBody Produto post){
 		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(post));
 	}
 	
 	@PutMapping
-	public ResponseEntity<Categoria> Put(@RequestBody Categoria put){
+	public ResponseEntity<Produto> Put(@RequestBody Produto put){
 		return ResponseEntity.status(HttpStatus.OK).body(repository.save(put));
 	}
 	
